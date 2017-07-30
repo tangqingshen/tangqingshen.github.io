@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>never give up  gogogo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="arguments对象arguments对象就是一个伪数组，他是函数中的一个变量当函数被调用的时候，传入函数的所有的实参，都会被存入arguments这个伪数组中 一般在用户传入的参数个数不确定的情况下，就使用arguments来获取用户传入的参数，而不通过形参来获取 arguments对象的属性callee: 指的就是arguments对象所在的函数! 一般用在函数中实现递归123(functi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="never give up  gogogo">
+<meta property="og:url" content="http://yoursite.com/2017/07/30/05.javascript高级04/index.html">
+<meta property="og:site_name" content="never give up  gogogo">
+<meta property="og:description" content="arguments对象arguments对象就是一个伪数组，他是函数中的一个变量当函数被调用的时候，传入函数的所有的实参，都会被存入arguments这个伪数组中 一般在用户传入的参数个数不确定的情况下，就使用arguments来获取用户传入的参数，而不通过形参来获取 arguments对象的属性callee: 指的就是arguments对象所在的函数! 一般用在函数中实现递归123(functi">
+<meta property="og:updated_time" content="2017-07-19T14:04:10.976Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="never give up  gogogo">
+<meta name="twitter:description" content="arguments对象arguments对象就是一个伪数组，他是函数中的一个变量当函数被调用的时候，传入函数的所有的实参，都会被存入arguments这个伪数组中 一般在用户传入的参数个数不确定的情况下，就使用arguments来获取用户传入的参数，而不通过形参来获取 arguments对象的属性callee: 指的就是arguments对象所在的函数! 一般用在函数中实现递归123(functi">
+  
+    <link rel="alternate" href="/atom.xml" title="never give up  gogogo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">never give up  gogogo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-05.javascript高级04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/05.javascript高级04/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.887Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="arguments对象"><a href="#arguments对象" class="headerlink" title="arguments对象"></a>arguments对象</h2><p>arguments对象就是一个伪数组，他是函数中的一个变量<br>当函数被调用的时候，传入函数的所有的实参，都会被存入arguments这个伪数组中</p>
+<p>一般在用户传入的参数个数不确定的情况下，就使用arguments来获取用户传入的参数，而不通过形参来获取</p>
+<p>arguments对象的属性<br>callee: 指的就是arguments对象所在的函数! 一般用在函数中实现递归<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="built_in">arguments</span>.callee();</div><div class="line">	&#125;)()</div></pre></td></tr></table></figure></p>
+<p>length: 指的是用户在调用函数的时候,传入的实参的个数</p>
+<h3 id="递归-算法"><a href="#递归-算法" class="headerlink" title="递归(算法)"></a>递归(算法)</h3><p>在函数中,直接或者间接的调用自己</p>
+<h3 id="递归的两大要素"><a href="#递归的两大要素" class="headerlink" title="递归的两大要素"></a>递归的两大要素</h3><ol>
+<li>必须要有自己调用自己</li>
+<li>必须要有结束条件</li>
+</ol>
+<h3 id="化归思想"><a href="#化归思想" class="headerlink" title="化归思想"></a>化归思想</h3><p>化归思想，将一个问题由难化易，由繁化简，由复杂化简单的过程称为化归，它是转化和归结的简称。</p>
+<h2 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h2><h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>变量起作用的范围,就是变量的作用域</p>
+<p>在JS当中有且只有函数可以创建作用域</p>
+<p>全局作用域：直接写在script标签中的内容，就属于全局作用域的范围<br>局部作用局：写在函数中的内容，属于局部作用域的范围<br>块级作用域: （JS中没有块级作用域）通过代码块限定的作用域，就是块级作用域</p>
+<p>词法作用域(静态作用域): 是作用域的分类!<br>Js中的作用域就属于词法作用域<br>函数中变量的访问,只和函数声明的位置有关系,也就是和代码的声明书写结构有关系,和函数的具体调用,运行时的状态没有关系,这种作用域就是词法作用域</p>
+<p>和词法作用域相对的作用域叫做动态作用域</p>
+<h2 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h2><p>函数可以创建作用域,函数中可以声明函数,这样就形成了作用域嵌套作用域的一个链式的访问结构,称作作用域链</p>
+<h3 id="变量的访问规则"><a href="#变量的访问规则" class="headerlink" title="变量的访问规则"></a>变量的访问规则</h3><p>当使用一个变量的时候,遵守如下规则</p>
+<ol>
+<li>先在使用变量的作用域中查找,如果找到该变量的声明,就直接使用该变量</li>
+<li>如果没有找到就去上一级作用域中进行查找,如果找到了该变量的声明,就直接使用该变量</li>
+<li>如果没有找到,就继续沿着作用域链向外查找，直到找到全局作用域为止<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="comment">// var a = 10;</span></div><div class="line">			<span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="function"><span class="keyword">function</span> <span class="title">f3</span>(<span class="params"></span>)</span>&#123;</div><div class="line">					<span class="built_in">console</span>.log(a);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><ol>
+<li>JS代码执行是分阶段的<br>1.1 预解析阶段<br>1.2 执行阶段</li>
+<li>变量提升<br> 在js代码的预解析阶段，系统会将所有的变量的声明以及函数的声明提升，提升到其所在的作用域的最顶上</li>
+</ol>
+<h3 id="变量提升的特殊情况"><a href="#变量提升的特殊情况" class="headerlink" title="变量提升的特殊情况"></a>变量提升的特殊情况</h3><ol>
+<li><p>函数同名情况(后面覆盖前面)<br>当在变量提升的时候，遇到函数同名的情况的时候，所有的函数都会被提升，但是后面的会把前面的给覆盖掉！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">func();</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"第一个func"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"第二个func"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"第三个func"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>函数和变量同名的情况(只提升函数忽略变量)<br> 当函数和变量同名的时候，只提升函数，忽略掉变量声明</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(a);</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</div><div class="line"></div><div class="line"><span class="comment">//提升后的代码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line"><span class="built_in">console</span>.log(a);</div><div class="line">a = <span class="number">10</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>变量提升是分作用域的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这里是访问不到的，因为b只会被提升到a里面的最顶上！</span></div><div class="line"></div><div class="line">		b();</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"1"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>变量提升是分段的(有两组script标签)</p>
+</li>
+<li><p>条件式函数声明<br>(在条件语句中声明的函数,就是条件式函数声明)<br>条件式函数声明在提升的时候,会被当做函数表达式来处理<br>提升后的效果就是,只有函数名被提升了,函数体没有被提升</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">a();</div><div class="line">		<span class="built_in">console</span>.log(a);</div><div class="line">		<span class="keyword">if</span>(<span class="literal">false</span>)&#123;</div><div class="line">			<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"我是一个条件式函数声明"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">//提升的时候的等效的代码</span></div><div class="line">		a();</div><div class="line">		<span class="built_in">console</span>.log(a);</div><div class="line">		<span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">			<span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"我是一个条件式函数声明"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">//提升后的代码</span></div><div class="line">		<span class="keyword">var</span> a;</div><div class="line">		a();</div><div class="line">		<span class="built_in">console</span>.log(a);</div><div class="line">		<span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">			a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"我是一个条件式函数声明"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>函数形参在变量提升过程中的处理</p>
+</li>
+</ol>
+<p>在进行变量提升之前,形参的声明以及赋值其实已经完成<br>所以形参的声明和赋值不参与变量提升<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">	 	<span class="comment">//var a = 10;</span></div><div class="line">	 	<span class="built_in">console</span>.log(a);</div><div class="line">	 	<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	 &#125;</div><div class="line"></div><div class="line">	 test(<span class="number">10</span>);</div><div class="line"></div><div class="line">	<span class="comment">// // 提升后的代码 打印出来是function a()&#123;&#125;</span></div><div class="line">	<span class="comment">// function test(a)&#123;</span></div><div class="line">	<span class="comment">// 	//var a = 10;</span></div><div class="line"></div><div class="line">	<span class="comment">// 	function a()&#123;&#125;;</span></div><div class="line">	<span class="comment">// 	console.log(a);</span></div><div class="line">	<span class="comment">// &#125;</span></div><div class="line"></div><div class="line">	<span class="comment">// test(10)</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//打印出来是 function</span></div><div class="line">		(<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);</div><div class="line">	<span class="keyword">var</span> a = <span class="string">"123"</span>;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">&#125;)(<span class="number">100</span>)</div><div class="line"><span class="comment">//提升后的代码</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">	<span class="comment">//var a = 100;</span></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	<span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);</div><div class="line">	a = <span class="string">"123"</span>;</div><div class="line">&#125;)(<span class="number">100</span>)</div></pre></td></tr></table></figure>
+<p>在做变量提升的时候,依次去找变量以及函数的声明,将其放在作用域的最顶上<br>其他代码,赋值语句,调用语句,依次写在下面</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/05.javascript高级04/" data-id="cj5qs1mxd0004pouxng72citu" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/30/关于JSON对象/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nieuwer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/30/04.javascript高级03/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/07/30/关于JSON对象/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/05.javascript高级04/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/04.javascript高级03/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/03.javascript高级02/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/02.javascript高级01/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

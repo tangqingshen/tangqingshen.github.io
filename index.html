@@ -48,9 +48,9 @@
       </nav>
       <nav id="sub-nav">
         
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS-каналы"></a>
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
         
-        <a id="nav-search-btn" class="nav-icon" title="Поиск"></a>
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
@@ -60,6 +60,577 @@
 </header>
       <div class="outer">
         <section id="main">
+  
+    <article id="post-关于JSON对象" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/关于JSON对象/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.906Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-JSON格式"><a href="#1-JSON格式" class="headerlink" title="1.JSON格式"></a>1.JSON格式</h2><ol>
+<li><p>复合类型的值只能是数组或对象，不能是函数、正则表达式对象、日期对象。</p>
+</li>
+<li><p>简单类型的值只有四种：字符串、数值（必须以十进制表示）、布尔值和null（不能使用NaN, Infinity, -Infinity和undefined）。</p>
+</li>
+<li><p>字符串必须使用双引号表示，不能使用单引号。</p>
+</li>
+<li><p>对象的键名必须放在双引号里面。</p>
+</li>
+<li><p>数组或对象最后一个成员的后面，不能加逗号。</p>
+</li>
+</ol>
+<h2 id="2-JSON-stringify"><a href="#2-JSON-stringify" class="headerlink" title="2.JSON.stringify()"></a>2.JSON.stringify()</h2><h3 id="2-1-基本用法"><a href="#2-1-基本用法" class="headerlink" title="2.1 基本用法"></a>2.1 基本用法</h3><p>JSON.stringify方法用于将一个值转为字符串。该字符串符合 JSON 格式，并且可以被JSON.parse方法还原。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">JSON</span>.stringify(<span class="string">'abc'</span>) <span class="comment">// ""abc""</span></div><div class="line"><span class="built_in">JSON</span>.stringify(<span class="number">1</span>) <span class="comment">// "1"</span></div><div class="line"><span class="built_in">JSON</span>.stringify(<span class="literal">false</span>) <span class="comment">// "false"</span></div><div class="line"><span class="built_in">JSON</span>.stringify([]) <span class="comment">// "[]"</span></div><div class="line"><span class="built_in">JSON</span>.stringify(&#123;&#125;) <span class="comment">// "&#123;&#125;"</span></div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify([<span class="number">1</span>, <span class="string">"false"</span>, <span class="literal">false</span>])</div><div class="line"><span class="comment">// '[1,"false",false]'</span></div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(&#123; <span class="attr">name</span>: <span class="string">"张三"</span> &#125;)</div><div class="line"><span class="comment">// '&#123;"name":"张三"&#125;'</span></div></pre></td></tr></table></figure></p>
+<ol>
+<li><strong>需要注意的是，对于原始类型的字符串，转换结果会带双引号。</strong></li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">JSON</span>.stringify(<span class="string">'foo'</span>) === <span class="string">"foo"</span> <span class="comment">// false</span></div><div class="line"><span class="built_in">JSON</span>.stringify(<span class="string">'foo'</span>) === <span class="string">"\"foo\""</span> <span class="comment">// true</span></div><div class="line"><span class="comment">//上面代码中，字符串foo，被转成了""foo""。这是因为将来还原的时候，双引号可以让 JavaScript 引擎知道，foo是一个字符串，而不是一个变量名。</span></div></pre></td></tr></table></figure>
+<ol>
+<li><p><strong>如果原始对象中，有一个成员的值是undefined、函数或 XML 对象，这个成员会被过滤。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  a: <span class="literal">undefined</span>,</div><div class="line">  b: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(obj) <span class="comment">// "&#123;&#125;"</span></div><div class="line"><span class="comment">//上面代码中，对象obj的a属性是undefined，而b属性是一个函数，结果都被JSON.stringify过滤。</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>如果数组的成员是undefined、函数或 XML 对象，则这些值被转成null。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="literal">undefined</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;&#125;];</div><div class="line"><span class="built_in">JSON</span>.stringify(arr) <span class="comment">// "[null,null]"</span></div><div class="line"><span class="comment">//上面代码中，数组arr的成员是undefined和函数，它们都被转成了null。</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>正则对象会被转成空对象。</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">JSON</span>.stringify(<span class="regexp">/foo/</span>) <span class="comment">// "&#123;&#125;"</span></div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>JSON.stringify方法会忽略对象的不可遍历属性</strong></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="built_in">Object</span>.defineProperties(obj, &#123;</div><div class="line">  <span class="string">'foo'</span>: &#123;</div><div class="line">    value: <span class="number">1</span>,</div><div class="line">    enumerable: <span class="literal">true</span></div><div class="line">  &#125;,</div><div class="line">  <span class="string">'bar'</span>: &#123;</div><div class="line">    value: <span class="number">2</span>,</div><div class="line">    enumerable: <span class="literal">false</span></div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(obj); <span class="comment">// "&#123;"foo":1&#125;"</span></div><div class="line"><span class="comment">//上面代码中，bar是obj对象的不可遍历属性，JSON.stringify方法会忽略这个属性。</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="2-2第二个参数"><a href="#2-2第二个参数" class="headerlink" title="2.2第二个参数"></a>2.2第二个参数</h3><ol>
+<li>JSON.stringify方法还可以接受一个数组，作为第二个参数，指定需要转成字符串的属性。<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  <span class="string">'prop1'</span>: <span class="string">'value1'</span>,</div><div class="line">  <span class="string">'prop2'</span>: <span class="string">'value2'</span>,</div><div class="line">  <span class="string">'prop3'</span>: <span class="string">'value3'</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> selectedProperties = [<span class="string">'prop1'</span>, <span class="string">'prop2'</span>];</div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(obj, selectedProperties)</div><div class="line"><span class="comment">// "&#123;"prop1":"value1","prop2":"value2"&#125;"</span></div><div class="line"><span class="comment">//上面代码中，JSON.stringify方法的第二个参数指定，只转prop1和prop2两个属性。</span></div><div class="line"></div><div class="line"><span class="comment">//这个类似“白名单”的数组，只对对象的属性有效，对数组无效。</span></div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify([<span class="string">'a'</span>, <span class="string">'b'</span>], [<span class="string">'0'</span>])</div><div class="line"><span class="comment">// "["a","b"]"</span></div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(&#123;<span class="number">0</span>: <span class="string">'a'</span>, <span class="number">1</span>: <span class="string">'b'</span>&#125;, [<span class="string">'0'</span>])</div><div class="line"><span class="comment">// "&#123;"0":"a"&#125;"</span></div><div class="line"><span class="comment">//上面代码中，第二个参数指定JSON格式只转0号属性，实际上对数组是无效的，只对对象有效。</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>第二个参数还可以是一个函数，用来更改JSON.stringify的默认行为。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">key, value</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">"number"</span>) &#123;</div><div class="line">    value = <span class="number">2</span> * value;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> value;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(&#123; <span class="attr">a</span>: <span class="number">1</span>, <span class="attr">b</span>: <span class="number">2</span> &#125;, f)</div><div class="line"><span class="comment">// '&#123;"a": 2,"b": 4&#125;'</span></div><div class="line"><span class="comment">//上面代码中的f函数，接受两个参数，分别是被转换的对象的键名和键值。如果键值是数值，就将它乘以2，否则就原样返回。</span></div><div class="line"></div><div class="line"><span class="comment">//注意，这个处理函数是递归处理所有的键。</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>: &#123;<span class="attr">b</span>: <span class="number">1</span>&#125;&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">key, value</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"["</span>+ key +<span class="string">"]:"</span> + value);</div><div class="line">  <span class="keyword">return</span> value;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(o, f)</div><div class="line"><span class="comment">// []:[object Object]</span></div><div class="line"><span class="comment">// [a]:[object Object]</span></div><div class="line"><span class="comment">// [b]:1</span></div><div class="line"><span class="comment">// '&#123;"a":&#123;"b":1&#125;&#125;'</span></div><div class="line"><span class="comment">//上面代码中，对象o一共会被f函数处理三次。第一次键名为空，键值是整个对象o；第二次键名为a，键值是&#123;b: 1&#125;；第三次键名为b，键值为1。</span></div><div class="line"></div><div class="line"><span class="comment">//递归处理中，每一次处理的对象，都是前一次返回的值。</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> o = &#123;<span class="attr">a</span>: <span class="number">1</span>&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">key, value</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span> value === <span class="string">'object'</span>) &#123;</div><div class="line">    <span class="keyword">return</span> &#123;<span class="attr">b</span>: <span class="number">2</span>&#125;;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> value * <span class="number">2</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(o,f)</div><div class="line"><span class="comment">// "&#123;"b": 4&#125;"</span></div><div class="line"><span class="comment">//上面代码中，f函数修改了对象o，接着JSON.stringify方法就递归处理修改后的对象o。</span></div><div class="line"></div><div class="line"><span class="comment">//如果处理函数返回undefined或没有返回值，则该属性会被忽略。</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">key, value</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (<span class="keyword">typeof</span>(value) === <span class="string">"string"</span>) &#123;</div><div class="line">    <span class="keyword">return</span> <span class="literal">undefined</span>;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">return</span> value;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">JSON</span>.stringify(&#123; <span class="attr">a</span>: <span class="string">"abc"</span>, <span class="attr">b</span>: <span class="number">123</span> &#125;, f)</div><div class="line"><span class="comment">// '&#123;"b": 123&#125;'</span></div><div class="line"><span class="comment">//上面代码中，a属性经过处理后，返回undefined，于是该属性被忽略了。</span></div></pre></td></tr></table></figure></p>
+<h3 id="2-3第三个参数"><a href="#2-3第三个参数" class="headerlink" title="2.3第三个参数"></a>2.3第三个参数</h3><p>JSON.stringify还可以接受第三个参数，用于增加返回的JSON字符串的可读性。如果是数字，表示每个属性前面添加的空格（最多不超过10个）；如果是字符串（不超过10个字符），则该字符串会添加在每行前面。</p>
+<h3 id="2-4toJSON方法"><a href="#2-4toJSON方法" class="headerlink" title="2.4toJSON方法"></a>2.4toJSON方法</h3><p>如果对象有自定义的toJSON方法，那么JSON.stringify会使用这个方法的返回值作为参数，而忽略原对象的其他属性。<br>toJSON方法的一个应用是，将正则对象自动转为字符串。因为JSON.stringify默认不能转换正则对象，但是设置了toJSON方法以后，就可以转换正则对象了。<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">  reg: <span class="regexp">/foo/</span></div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 不设置 toJSON 方法时</span></div><div class="line"><span class="built_in">JSON</span>.stringify(obj) <span class="comment">// "&#123;"reg":&#123;&#125;&#125;"</span></div><div class="line"></div><div class="line"><span class="comment">// 设置 toJSON 方法时</span></div><div class="line"><span class="built_in">RegExp</span>.prototype.toJSON = <span class="built_in">RegExp</span>.prototype.toString;</div><div class="line"><span class="built_in">JSON</span>.stringify(<span class="regexp">/foo/</span>) <span class="comment">// ""/foo/""</span></div><div class="line"><span class="comment">//上面代码在正则对象的原型上面部署了toJSON方法，将其指向toString方法，因此遇到转换成JSON时，正则对象就先调用toJSON方法转为字符串，然后再被JSON.stingify方法处理。</span></div></pre></td></tr></table></figure></p>
+<h2 id="JSON-parse"><a href="#JSON-parse" class="headerlink" title="JSON.parse()"></a>JSON.parse()</h2><h3 id="JSON-parse方法用于将JSON字符串转化成对象。"><a href="#JSON-parse方法用于将JSON字符串转化成对象。" class="headerlink" title="JSON.parse方法用于将JSON字符串转化成对象。"></a>JSON.parse方法用于将JSON字符串转化成对象。</h3><h3 id="JSON-parse方法可以接受一个处理函数，用法与JSON-stringify方法类似。"><a href="#JSON-parse方法可以接受一个处理函数，用法与JSON-stringify方法类似。" class="headerlink" title="JSON.parse方法可以接受一个处理函数，用法与JSON.stringify方法类似。"></a>JSON.parse方法可以接受一个处理函数，用法与JSON.stringify方法类似。</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params">key, value</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (key === <span class="string">''</span>)&#123;</div><div class="line">    <span class="keyword">return</span> value;</div><div class="line">  &#125;</div><div class="line">  <span class="keyword">if</span> (key === <span class="string">'a'</span>) &#123;</div><div class="line">    <span class="keyword">return</span> value + <span class="number">10</span>;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> o = <span class="built_in">JSON</span>.parse(<span class="string">'&#123;"a":1,"b":2&#125;'</span>, f);</div><div class="line">o.a <span class="comment">// 11</span></div><div class="line">o.b <span class="comment">// undefined</span></div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/关于JSON对象/" data-id="cj5qs1my10007pouxd6na52kq" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-05.javascript高级04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/05.javascript高级04/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.887Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="arguments对象"><a href="#arguments对象" class="headerlink" title="arguments对象"></a>arguments对象</h2><p>arguments对象就是一个伪数组，他是函数中的一个变量<br>当函数被调用的时候，传入函数的所有的实参，都会被存入arguments这个伪数组中</p>
+<p>一般在用户传入的参数个数不确定的情况下，就使用arguments来获取用户传入的参数，而不通过形参来获取</p>
+<p>arguments对象的属性<br>callee: 指的就是arguments对象所在的函数! 一般用在函数中实现递归<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="built_in">arguments</span>.callee();</div><div class="line">	&#125;)()</div></pre></td></tr></table></figure></p>
+<p>length: 指的是用户在调用函数的时候,传入的实参的个数</p>
+<h3 id="递归-算法"><a href="#递归-算法" class="headerlink" title="递归(算法)"></a>递归(算法)</h3><p>在函数中,直接或者间接的调用自己</p>
+<h3 id="递归的两大要素"><a href="#递归的两大要素" class="headerlink" title="递归的两大要素"></a>递归的两大要素</h3><ol>
+<li>必须要有自己调用自己</li>
+<li>必须要有结束条件</li>
+</ol>
+<h3 id="化归思想"><a href="#化归思想" class="headerlink" title="化归思想"></a>化归思想</h3><p>化归思想，将一个问题由难化易，由繁化简，由复杂化简单的过程称为化归，它是转化和归结的简称。</p>
+<h2 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h2><h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>变量起作用的范围,就是变量的作用域</p>
+<p>在JS当中有且只有函数可以创建作用域</p>
+<p>全局作用域：直接写在script标签中的内容，就属于全局作用域的范围<br>局部作用局：写在函数中的内容，属于局部作用域的范围<br>块级作用域: （JS中没有块级作用域）通过代码块限定的作用域，就是块级作用域</p>
+<p>词法作用域(静态作用域): 是作用域的分类!<br>Js中的作用域就属于词法作用域<br>函数中变量的访问,只和函数声明的位置有关系,也就是和代码的声明书写结构有关系,和函数的具体调用,运行时的状态没有关系,这种作用域就是词法作用域</p>
+<p>和词法作用域相对的作用域叫做动态作用域</p>
+<h2 id="作用域链"><a href="#作用域链" class="headerlink" title="作用域链"></a>作用域链</h2><p>函数可以创建作用域,函数中可以声明函数,这样就形成了作用域嵌套作用域的一个链式的访问结构,称作作用域链</p>
+<h3 id="变量的访问规则"><a href="#变量的访问规则" class="headerlink" title="变量的访问规则"></a>变量的访问规则</h3><p>当使用一个变量的时候,遵守如下规则</p>
+<ol>
+<li>先在使用变量的作用域中查找,如果找到该变量的声明,就直接使用该变量</li>
+<li>如果没有找到就去上一级作用域中进行查找,如果找到了该变量的声明,就直接使用该变量</li>
+<li>如果没有找到,就继续沿着作用域链向外查找，直到找到全局作用域为止<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">f1</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="comment">// var a = 10;</span></div><div class="line">			<span class="function"><span class="keyword">function</span> <span class="title">f2</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="function"><span class="keyword">function</span> <span class="title">f3</span>(<span class="params"></span>)</span>&#123;</div><div class="line">					<span class="built_in">console</span>.log(a);</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="变量提升"><a href="#变量提升" class="headerlink" title="变量提升"></a>变量提升</h2><ol>
+<li>JS代码执行是分阶段的<br>1.1 预解析阶段<br>1.2 执行阶段</li>
+<li>变量提升<br> 在js代码的预解析阶段，系统会将所有的变量的声明以及函数的声明提升，提升到其所在的作用域的最顶上</li>
+</ol>
+<h3 id="变量提升的特殊情况"><a href="#变量提升的特殊情况" class="headerlink" title="变量提升的特殊情况"></a>变量提升的特殊情况</h3><ol>
+<li><p>函数同名情况(后面覆盖前面)<br>当在变量提升的时候，遇到函数同名的情况的时候，所有的函数都会被提升，但是后面的会把前面的给覆盖掉！</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">func();</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"第一个func"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"第二个func"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="string">"第三个func"</span>);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>函数和变量同名的情况(只提升函数忽略变量)<br> 当函数和变量同名的时候，只提升函数，忽略掉变量声明</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(a);</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line"><span class="keyword">var</span> a = <span class="number">10</span>;</div><div class="line"></div><div class="line"><span class="comment">//提升后的代码</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line"><span class="built_in">console</span>.log(a);</div><div class="line">a = <span class="number">10</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>变量提升是分作用域的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//这里是访问不到的，因为b只会被提升到a里面的最顶上！</span></div><div class="line"></div><div class="line">		b();</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="function"><span class="keyword">function</span> <span class="title">b</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"1"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>变量提升是分段的(有两组script标签)</p>
+</li>
+<li><p>条件式函数声明<br>(在条件语句中声明的函数,就是条件式函数声明)<br>条件式函数声明在提升的时候,会被当做函数表达式来处理<br>提升后的效果就是,只有函数名被提升了,函数体没有被提升</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">a();</div><div class="line">		<span class="built_in">console</span>.log(a);</div><div class="line">		<span class="keyword">if</span>(<span class="literal">false</span>)&#123;</div><div class="line">			<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"我是一个条件式函数声明"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">//提升的时候的等效的代码</span></div><div class="line">		a();</div><div class="line">		<span class="built_in">console</span>.log(a);</div><div class="line">		<span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">			<span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"我是一个条件式函数声明"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="comment">//提升后的代码</span></div><div class="line">		<span class="keyword">var</span> a;</div><div class="line">		a();</div><div class="line">		<span class="built_in">console</span>.log(a);</div><div class="line">		<span class="keyword">if</span>(<span class="literal">true</span>)&#123;</div><div class="line">			a = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"我是一个条件式函数声明"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>函数形参在变量提升过程中的处理</p>
+</li>
+</ol>
+<p>在进行变量提升之前,形参的声明以及赋值其实已经完成<br>所以形参的声明和赋值不参与变量提升<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">test</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">	 	<span class="comment">//var a = 10;</span></div><div class="line">	 	<span class="built_in">console</span>.log(a);</div><div class="line">	 	<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	 &#125;</div><div class="line"></div><div class="line">	 test(<span class="number">10</span>);</div><div class="line"></div><div class="line">	<span class="comment">// // 提升后的代码 打印出来是function a()&#123;&#125;</span></div><div class="line">	<span class="comment">// function test(a)&#123;</span></div><div class="line">	<span class="comment">// 	//var a = 10;</span></div><div class="line"></div><div class="line">	<span class="comment">// 	function a()&#123;&#125;;</span></div><div class="line">	<span class="comment">// 	console.log(a);</span></div><div class="line">	<span class="comment">// &#125;</span></div><div class="line"></div><div class="line">	<span class="comment">// test(10)</span></div></pre></td></tr></table></figure></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//打印出来是 function</span></div><div class="line">		(<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);</div><div class="line">	<span class="keyword">var</span> a = <span class="string">"123"</span>;</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">&#125;)(<span class="number">100</span>)</div><div class="line"><span class="comment">//提升后的代码</span></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">a</span>)</span>&#123;</div><div class="line">	<span class="comment">//var a = 100;</span></div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">a</span>(<span class="params"></span>)</span>&#123;&#125;;</div><div class="line">	<span class="built_in">console</span>.log(<span class="keyword">typeof</span> a);</div><div class="line">	a = <span class="string">"123"</span>;</div><div class="line">&#125;)(<span class="number">100</span>)</div></pre></td></tr></table></figure>
+<p>在做变量提升的时候,依次去找变量以及函数的声明,将其放在作用域的最顶上<br>其他代码,赋值语句,调用语句,依次写在下面</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/05.javascript高级04/" data-id="cj5qs1mxd0004pouxng72citu" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-04.javascript高级03" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/04.javascript高级03/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.873Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><p>每个对象都有原型,原型也是一个对象,所以原型也有自己的原型,这样就形成了一个以圆形组成的链条,称为原型链<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj =&#123;&#125;</div><div class="line"><span class="comment">//obj对象的原型就是obj.__proto__</span></div><div class="line"><span class="comment">//obj对象的原型的原型是	obj.__proto__.__proto__</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person();</div><div class="line"></div><div class="line"><span class="comment">//p的原型就是 Person.prototype  也就是 p.__proto__</span></div><div class="line"><span class="comment">//p的原型的原型就是Person.prototype.__proto__</span></div><div class="line">或者是p.__proto__.__proto__</div></pre></td></tr></table></figure></p>
+<ul>
+<li>属性搜索原则<br>当一个对象去访问对象的属性的时候,遵守如下原则:</li>
+</ul>
+<ol>
+<li>先在对象本身中去访问对象的属性,找到就直接使用</li>
+<li>如果没有找到,就去原型中找,找到直接使用</li>
+<li>如果没有找到,就继续沿着原型链向上查找,直到null为止</li>
+</ol>
+<h2 id="object-prototype成员介绍"><a href="#object-prototype成员介绍" class="headerlink" title="object.prototype成员介绍"></a>object.prototype成员介绍</h2><h3 id="hasOwnProperty-NaN"><a href="#hasOwnProperty-NaN" class="headerlink" title="hasOwnProperty"></a>hasOwnProperty</h3><p>判断对象本身是否拥有指定的属性<br>对象.hasOwnProperty(‘属性名’)<br>//判断对象能否访问某个属性</p>
+<h3 id="isPrototypeOf-NaN"><a href="#isPrototypeOf-NaN" class="headerlink" title="isPrototypeOf"></a>isPrototypeOf</h3><p>判断当前对象是否是另一个对象的原型<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;&#125;;</div><div class="line">obj1.__proto__ = obj;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(obj.isPrototypeOf(obj1));</div></pre></td></tr></table></figure></p>
+<h3 id="propertyIsEnumarable"><a href="#propertyIsEnumarable" class="headerlink" title="propertyIsEnumarable"></a>propertyIsEnumarable</h3><p>判断属性是否属于对象本身,再判断属性能否被(for-in)遍历</p>
+<h3 id="toLocalString-toString"><a href="#toLocalString-toString" class="headerlink" title="toLocalString toString"></a>toLocalString toString</h3><p>都是将对象转换成字符串<br>toLocalString 是将对象转换成本地格式的字符串<br>toString 是转成通用格式的字符串</p>
+<h3 id="valueOf-NaN"><a href="#valueOf-NaN" class="headerlink" title="valueOf"></a>valueOf</h3><p>获取对象的值</p>
+<h2 id="函数的创建方式"><a href="#函数的创建方式" class="headerlink" title="函数的创建方式"></a>函数的创建方式</h2><ol>
+<li><p>函数声明<br>function() 函数名(){};</p>
+</li>
+<li><p>函数表达式<br>var 函数名 = function(){};</p>
+</li>
+<li><p>使用Function</p>
+</li>
+</ol>
+<p>var 函数名 = new Function();</p>
+<h2 id="Function的解释"><a href="#Function的解释" class="headerlink" title="Function的解释"></a>Function的解释</h2><p>Function是一个构造函数,可以用来创建函数对象<br>js中所有的函数(包括Function本身),都可以看做是使用Function构造函数创建出来的</p>
+<h3 id="Function可以用来创建函数"><a href="#Function可以用来创建函数" class="headerlink" title="Function可以用来创建函数"></a>Function可以用来创建函数</h3><ol>
+<li>如果不给Function传递参数,那么创建出来的就是一个空函数</li>
+<li><p>传递一个参数,这个参数就是函数的函数体,这个参数是字符串类型的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> func1 = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"console.log(123);console.log(456);"</span>);</div><div class="line">func1();</div><div class="line"><span class="built_in">console</span>.log(func1);</div></pre></td></tr></table></figure>
+</li>
+<li><p>传递多个参数的时候,最后一个参数为函数体,之前的所有参数都是形参名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"return a + b;"</span>);</div><div class="line"><span class="built_in">console</span>.log(sum(<span class="number">1</span>, <span class="number">2</span>));</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="eval函数"><a href="#eval函数" class="headerlink" title="eval函数"></a>eval函数</h2><p>eval是一个函数,可以把字符串当做代码来执行<br>和Function的区别在于<br>eval会将字符串转换成代码,并且直接执行<br>而Function创建出来的是函数,必须要手动调用,里面的代码才会执行</p>
+<p>JSON格式字符串转换成JS对象<br>JSON.parse</p>
+<p>使用eval来解析JSON格式的字符串<br>当使用eval直接解析json格式的字符串的时候，系统会将{}当做代码块来处理，而不是对象字面量，所以会报错！</p>
+<p>代码块?<br>代码块只能单独存在,但是对象字面量可以作为橘子的一部分存在,给变量赋值或者传参</p>
+<p>Function和eval  都存在安全性问题</p>
+<h3 id="函数的原型链"><a href="#函数的原型链" class="headerlink" title="函数的原型链"></a>函数的原型链</h3><ol>
+<li>函数也是一个对象<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Person.__proto__ === <span class="built_in">Function</span>.prototype);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="instanceof-关键字"><a href="#instanceof-关键字" class="headerlink" title="instanceof 关键字"></a>instanceof 关键字</h2><p>判断对象的原型链上是否存在构造函数.prototype</p>
+<p>格式:<br>对象  instanceof 构造函数</p>
+<h2 id="函数的成员"><a href="#函数的成员" class="headerlink" title="函数的成员"></a>函数的成员</h2><ol>
+<li>name : 函数的名称</li>
+<li>length: 函数的形参的个数</li>
+<li>caller： 函数是在哪个函数中被调用的，caller就指向那个外部函数（这个caller必须要在函数中去使用，才能访问到值！）</li>
+<li>arguments： 函数在被调用的时候，会把所有的实参存到这个对象里面（这个对象必须要在函数中去使用，才能访问到值！ 这个arguments是函数的属性，和之前学过的arguments不一样！）</li>
+</ol>
+<h2 id="静态成员和实例成员"><a href="#静态成员和实例成员" class="headerlink" title="静态成员和实例成员"></a>静态成员和实例成员</h2><ul>
+<li>静态成员： 通过构造函数访问的成员就是静态成员</li>
+<li>实例成员： 通过实例对象访问的成员就是实例成员</li>
+</ul>
+<p>如何设置对象的属性不能被赋值?<br>Object.defineProperty设置</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/04.javascript高级03/" data-id="cj5qs1mx90001pouxpdrqa9s8" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-03.javascript高级02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/03.javascript高级02/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.855Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="创建对象的方式"><a href="#创建对象的方式" class="headerlink" title="创建对象的方式"></a>创建对象的方式</h2><ol>
+<li>对象字面量</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj =&#123;</div><div class="line">	name :<span class="string">'张学友'</span>,</div><div class="line">	age :<span class="number">18</span></div><div class="line">&#125;</div><div class="line"><span class="comment">//复用性比较差</span></div></pre></td></tr></table></figure>
+<ol>
+<li>内置构造函数</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj= <span class="keyword">new</span> <span class="built_in">Object</span>();</div><div class="line">obj.name = <span class="string">'薛之谦'</span>;</div><div class="line">obj.age = <span class="number">34</span>;</div><div class="line"></div><div class="line"><span class="comment">//复用性比较差</span></div></pre></td></tr></table></figure>
+<ol>
+<li>自定义构造函数</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	<span class="keyword">this</span>.name =<span class="string">''</span>;</div><div class="line">	<span class="keyword">this</span>.age = <span class="number">18</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person()</div><div class="line"><span class="keyword">var</span> p2 = <span class="keyword">new</span> Person()</div><div class="line"><span class="comment">//复用性比较好</span></div></pre></td></tr></table></figure>
+<h2 id="构造函数的相关概念"><a href="#构造函数的相关概念" class="headerlink" title="构造函数的相关概念"></a>构造函数的相关概念</h2><h3 id="构造函数是什么"><a href="#构造函数是什么" class="headerlink" title="构造函数是什么"></a>构造函数是什么</h3><p>构造函数就是一个函数,构造函数一般被用来初始化对象</p>
+<h3 id="构造函数的特点"><a href="#构造函数的特点" class="headerlink" title="构造函数的特点"></a>构造函数的特点</h3><ol>
+<li>一般情况下,首字母大写</li>
+<li>一般情况下,和new 关键字一起使用 </li>
+<li>构造函数不需要自己手动去写return语句,会自动返回创建出来的对象</li>
+</ol>
+<h3 id="构造函数的执行过程"><a href="#构造函数的执行过程" class="headerlink" title="构造函数的执行过程"></a>构造函数的执行过程</h3><ol>
+<li>new关键字创建对象</li>
+<li>调用构造函数,将构造函数内部的this指向new创建出来的对象</li>
+<li>执行构造函数的代码,通过this为刚才创建出来的对象新增属性和方法</li>
+<li>默认自动返回了刚才创建出来并且已经田家湾属性和方法的对象</li>
+</ol>
+<h2 id="构造函数的注意事项"><a href="#构造函数的注意事项" class="headerlink" title="构造函数的注意事项"></a>构造函数的注意事项</h2><ol>
+<li>如果手动写了return语句<br> 1.1 如果return的是值类型的数据,name不会对默认返回值产生影响<br> 1.2 如果return的是引用类型的数据,那么返回的是就是return语句后面的数据</li>
+<li>如果把构造函数当做普通函数来调用<br> 2.1 函数中的this会指向window,通过this添加的所有的属性和方法全部添加给了window<br> 2.2 此时构造函数的返回值,完全按照普通函数来理解</li>
+</ol>
+<h2 id="传统的构造函数写法存在的问题"><a href="#传统的构造函数写法存在的问题" class="headerlink" title="传统的构造函数写法存在的问题"></a>传统的构造函数写法存在的问题</h2><ol>
+<li>如果将方法的声明放在构造函数里面,name每次创建对象方法声明都会被执行一次,生成一个新的方法</li>
+<li>每个对象都拥有一个独立的这个方法,但是,所有对象拥有的方法功能都是完全一致的,这样就造成了资源浪费<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>)</span>&#123;</div><div class="line">			<span class="keyword">this</span>.name = name;</div><div class="line">			<span class="keyword">this</span>.age = age;</div><div class="line">			<span class="keyword">this</span>.sayHi = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"Nice to meet you!"</span>);</div><div class="line">			&#125;;</div><div class="line">		&#125;</div><div class="line"><span class="string">``</span><span class="string">`	</span></div><div class="line"><span class="string">解决方法:</span></div><div class="line"><span class="string">1.将这个方法的声明放在构造函数外面,那么这个声明就会就只会被执行一次,每次创建对象的 时候,都会将这个已经创建好的函数的地址赋值给对象的方法,而不是重新创建一个函数,这样就达到了所有对象共享同一个方法的目的,节省资源</span></div><div class="line"><span class="string">`</span><span class="string">``</span>javascript</div><div class="line">	<span class="function"><span class="keyword">function</span> <span class="title">sayHi</span>(<span class="params"></span>)</span>&#123;</div><div class="line">			<span class="built_in">console</span>.log(<span class="string">"Nice to meet you!"</span>);</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>)</span>&#123;</div><div class="line">			<span class="keyword">this</span>.name = name;</div><div class="line">			<span class="keyword">this</span>.age = age;</div><div class="line">			<span class="keyword">this</span>.sayHi = sayHi;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		<span class="keyword">var</span> p = <span class="keyword">new</span> Person(<span class="string">"白百合"</span>, <span class="number">18</span>);</div><div class="line">		p.sayHi();</div><div class="line"></div><div class="line">		<span class="keyword">var</span> p1 = <span class="keyword">new</span> Person(<span class="string">"陈羽凡"</span>, <span class="number">18</span>);</div><div class="line">		p1.sayHi();</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="原型的基本概念"><a href="#原型的基本概念" class="headerlink" title="原型的基本概念"></a>原型的基本概念</h2><h3 id="原型是什么"><a href="#原型是什么" class="headerlink" title="原型是什么"></a>原型是什么</h3><pre><code>当构造函数被创建出来的时候,系统会默认的办这个构造函数创建并且关联一个空的对象,这个空的对象就是原型
+</code></pre><h3 id="原型的作用"><a href="#原型的作用" class="headerlink" title="原型的作用"></a>原型的作用</h3><pre><code>原型中所有的属性和方法,可以被和其关联的构造函数所创建出来的所有的对象共享
+</code></pre><h3 id="如何访问原型"><a href="#如何访问原型" class="headerlink" title="如何访问原型"></a>如何访问原型</h3><pre><code>构造函数.prototype
+</code></pre><h2 id="原型的使用方式"><a href="#原型的使用方式" class="headerlink" title="原型的使用方式"></a>原型的使用方式</h2><ol>
+<li><p>利用对象的动态特性,为原型对象新增属性和方法  </p>
+<pre><code>//这种方法是在系统默认创建的原型中做更改,新增属性方法
+</code></pre><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Person.prototype.sayHello = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">	&#125;;</div><div class="line"></div><div class="line">Person.prototype[<span class="string">"sayHi"</span>] = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>直接为构造函数.prototype赋值<br> //这种方式是自己创建一个对象,这个对象中有我们自己的属性和方法,将这个对象赋值给构造函数.prototype作为原型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div></pre></td><td class="code"><pre><div class="line">		Person.prototype = &#123;</div><div class="line">			sayHello: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"Hello"</span>);</div><div class="line">			&#125;,</div><div class="line">			calssNumber: <span class="string">"219"</span>,</div><div class="line">			sayHi: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">				<span class="built_in">console</span>.log(<span class="string">"Hi"</span>);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line"><span class="string">``</span><span class="string">`	</span></div><div class="line"><span class="string">## 原型的使用注意事项</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">1. 一般只将需要共享的内容放到原型中去</span></div><div class="line"><span class="string">2. 当使用对象去访问一个属性的时候,会先在对象本身进行查找,如果找到了就直接使用,如果找不到,就会去原型中进行查找</span></div><div class="line"><span class="string">3. 当使用对象去设置一个属性的值时,只会在对象本身中查找,如果自己有就修改,如果自己没有,就直接新增这个属性,和原型没有关系</span></div><div class="line"><span class="string">4. 在给构造函数的prototype属性重新赋值的时候,重新赋值之前创建的对象能够访问的原型和重新赋值之后所能访问的原型是不一致的</span></div><div class="line"><span class="string">5. 一般情况下，修改原型的操作都几种在一块，也就是在构造函数声明之后，集中对原型做修改，之后，就不会再有修改原型的代码了</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">## 原型的constructor属性</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">构造函数的原型中有一个属性, constructor属性,可以访问到这个原型对应的构造函数</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">当我们自己创建一个对象赋值给构造函数的prototype属性的时候,梓潼不会自动帮我们补constructor属性,所以访问的时候,是访问不到对应的构造函数的</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">## __proto__属性</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">###原型的访问方式</span></div><div class="line"><span class="string">1. 构造函数.prototype</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">2. 对象.__proto__(有兼容性问题,只能在调试或者开发过程当中使用,不能在线上的项目中使用)</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">	_ 一个下划线打头的变量名或者属性名,表示该变量或者属性,为私有的</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">	__ 用两个下划线打头的属性名,表示该属性是一个非标准(ECMAScript)的属性,浏览器自己实现的,用来方便开发人员使用的内容</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">## 面向对象的三大特性</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">1. 封装</span></div><div class="line"><span class="string">	将功能的具体实现封装在对象内部,只对外部暴露接口,外部在使用的时候,只需要考虑接口怎么使用,不需要考虑内部的实现,这就是封装</span></div><div class="line"><span class="string">2. 继承</span></div><div class="line"><span class="string">	一个对象没有一些属性和方法,另一个对象有,拿过来使用,就是实现了继承</span></div><div class="line"><span class="string">3. 多态</span></div><div class="line"><span class="string">	//js中没有多态！！！</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">	//在强类型语言中，首先要有继承关系，父类的变量指向子类的对象，就是多态</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">## 继承的实现方式</span></div><div class="line"><span class="string"></span></div><div class="line"><span class="string">1.  混入式继承</span></div><div class="line"><span class="string">`</span><span class="string">``</span>js</div><div class="line"><span class="keyword">var</span> obj = &#123;&#125;;</div><div class="line"><span class="keyword">var</span> obj1 = &#123;</div><div class="line">	name: <span class="string">""</span>,</div><div class="line">	age: <span class="number">18</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> obj1)&#123;</div><div class="line">	obj[k] = obj1[k];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>2.原型继承<br>2.1 直接将要继承的对象,赋值给构造函数的prototype属性,这样通过构造函数创建出来的所有的对象,都继承了这个要继承的对象<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">	name: <span class="string">""</span>,</div><div class="line">	age: <span class="number">18</span></div><div class="line">&#125;</div><div class="line"></div><div class="line">Person.prototype = obj;</div></pre></td></tr></table></figure></p>
+<p>2.2 利用混入的方式,将所有要继承的对象的所有属性和方法加到构造函数的原型中去,name通过构造函数创建出来的所有的对象,就继承了这个对象</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line">	</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = &#123;</div><div class="line">	name: <span class="string">""</span>,</div><div class="line">	age: <span class="number">18</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> obj)&#123;</div><div class="line">	Person.prototype[k] = obj[k];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="经典继承"><a href="#经典继承" class="headerlink" title="经典继承"></a>经典继承</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//Object.create</span></div><div class="line"><span class="keyword">var</span> obj1 = &#123;</div><div class="line">	name: <span class="string">""</span>,</div><div class="line">	age: <span class="number">18</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj = <span class="built_in">Object</span>.create(obj1);</div><div class="line"><span class="comment">//创建出来一个新的对象obj，obj的原型就是obj1</span></div><div class="line"></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">myCreate</span>(<span class="params">obj</span>)</span>&#123;</div><div class="line">	<span class="keyword">if</span>(<span class="built_in">Object</span>.create)&#123;</div><div class="line">		<span class="keyword">return</span> <span class="built_in">Object</span>.create(obj);</div><div class="line">	&#125;<span class="keyword">else</span>&#123;</div><div class="line">		<span class="function"><span class="keyword">function</span> <span class="title">F</span>(<span class="params"></span>)</span>&#123;&#125;</div><div class="line">		F.prototype = obj;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">new</span> F();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/03.javascript高级02/" data-id="cj5qs1mxf0005pouxtfkcs3mz" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-02.javascript高级01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/02.javascript高级01/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.852Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="javascript中的数据类型"><a href="#javascript中的数据类型" class="headerlink" title="javascript中的数据类型"></a>javascript中的数据类型</h2><p>###基本数据类型</p>
+<ol>
+<li><code>string</code></li>
+<li><code>number</code></li>
+<li><code>boolean</code></li>
+</ol>
+<p>###引用数据类型</p>
+<ol>
+<li><code>object</code></li>
+<li><code>function</code></li>
+<li><code>Array</code></li>
+<li><code>RegExp</code></li>
+<li><code>Date</code></li>
+<li><code>Math</code></li>
+<li><code>Boolean</code></li>
+<li><code>Number</code></li>
+<li><code>String</code></li>
+</ol>
+<h2 id="要点tips"><a href="#要点tips" class="headerlink" title="要点tips"></a>要点tips</h2><ol>
+<li>对象类型的数据进行对比,是比较的存储地址</li>
+<li>当一个值类型的数据和一个引用类型的数据发生运算时,遵循如下规则:<br> 先调用这个引用类型数据的valueOf方法,获取返回值之后参与运算,如果能运算,那么直接得出结果<br> 如果不能运算,继续调用该引用类型数据的toString方法,获取返回值参与运算,这个是可以出来结果的.<br> 引用类型除了Date之外用valueOf方法返回的是自身<br> {}.toString() 返回的是[object Object]<br> [].toString() 返回的是’’ 空字符串</li>
+</ol>
+<h2 id="in关键字的使用"><a href="#in关键字的使用" class="headerlink" title="in关键字的使用"></a>in关键字的使用</h2><p>for-in 遍历对象的属性<br>    //对象的属性名都是string类型<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> k <span class="keyword">in</span> obj)&#123;</div><div class="line">	<span class="built_in">console</span>.log(k); <span class="comment">//k 代表的就是对象的属性，这个k是字符串类型</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>属性名 in 对象 判断对象能否访问某个属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>,<span class="number">5</span>];</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="number">5</span> <span class="keyword">in</span> arr)</div><div class="line"><span class="comment">//上面的代码判断的是数组中是否存在下标(索引)为5的元素</span></div><div class="line"><span class="built_in">console</span>.log(arr.indexOf(<span class="number">5</span>))</div><div class="line"><span class="comment">//上面的代码判断的是数组中是否存在值为5的元素</span></div></pre></td></tr></table></figure>
+<h2 id="delete关键字的用法"><a href="#delete关键字的用法" class="headerlink" title="delete关键字的用法"></a>delete关键字的用法</h2><ol>
+<li>delete可以删除没有使用var声明的变量,不能删除var声明的变量.</li>
+<li>删除对象属性    <pre><code>delete 对象名.属性名
+delete 对象名[属性名]
+</code></pre></li>
+</ol>
+<p>delete关键字是有返回值的,表示是否删除成功,但是不可靠(空对象)<br>delete删除数组元素之后其他元素的索引不会自动改变,数组长度也不会发生变化</p>
+<h2 id="对象的动态特性"><a href="#对象的动态特性" class="headerlink" title="对象的动态特性"></a>对象的动态特性</h2><p>当对象被创建完成之后,可以随时的为对象新增成员(属性和方法),这种特性就是对象的动态特性</p>
+<ol>
+<li>点语法        对象名.属性名 =值</li>
+<li>[]关联数组语法        对象名[属性名] =值</li>
+</ol>
+<h2 id="异常处理"><a href="#异常处理" class="headerlink" title="异常处理"></a>异常处理</h2><pre><code class="javascript"><span class="keyword">try</span>{
+    <span class="comment">//可能会出错的代码</span>
+}<span class="keyword">catch</span>(e){
+    <span class="comment">//出错之后的处理代码</span>
+    <span class="comment">//e  出错后被捕获的错误信息</span>
+}<span class="keyword">finally</span>{
+    <span class="comment">//无论是否发生一场都会执行的代码</span>
+    <span class="comment">//一般在finally中写释放资源的操作</span>
+}
+</code></pre>
+<h2 id="值类型和引用类型"><a href="#值类型和引用类型" class="headerlink" title="值类型和引用类型"></a>值类型和引用类型</h2><ol>
+<li>值类型:<br>直接存储的就是数据本身的这种数据,就是值类型的数据</li>
+<li>引用类型<br>存储的是数据的地址,数据单独存起来的这种数据,就是引用类型的数据</li>
+</ol>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ul>
+<li><p>当值类型的数据进行赋值的时候,会将现有的变量存储的数据直接复制一份交给新的变量,此时两个变量虽然纸一样,但是存储的空间完全独立,修改其中一个,另一个不受影响</p>
+</li>
+<li><p>引用类型的数据在赋值的时候,会将变量中存储的对象的地址复制一份交给新的变量,此时两个变量同时指向了同一个对象,修改其中一个,另外一个也会受影响</p>
+</li>
+</ul>
+<ul>
+<li>简单来说 值类型赋值的数据,引用类型赋值的是数据的存储地址</li>
+</ul>
+<h2 id="面向对象的基本概念"><a href="#面向对象的基本概念" class="headerlink" title="面向对象的基本概念"></a>面向对象的基本概念</h2><ul>
+<li>面向过程 </li>
+</ul>
+<ul>
+<li>是一种解决问题的思维方式,关注点在解决问题的步骤上</li>
+</ul>
+<ul>
+<li>面向对象</li>
+</ul>
+<ul>
+<li><p>是一种解决问题的思维方式,关注点在就解决问题所需要的一系列对象上</p>
+<p>  面向对象就是对面向过程的封装</p>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/02.javascript高级01/" data-id="cj5qs1mxb0002poux7u6keica" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-01" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/01/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.823Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="浏览器的组成"><a href="#浏览器的组成" class="headerlink" title="浏览器的组成"></a>浏览器的组成</h2><p>1.人机交互部分 UI<br>2.网络请求(socket)<br>3.js引擎(解析js)<br>4.渲染引擎<br>5.数据存储</p>
+<h2 id="渲染引擎工作原理"><a href="#渲染引擎工作原理" class="headerlink" title="渲染引擎工作原理"></a>渲染引擎工作原理</h2><ol>
+<li>构建dom树</li>
+<li>构建渲染树,剔除不显示的标签</li>
+<li>渲染树布局,layout</li>
+<li>绘制渲染树,加载出页面</li>
+</ol>
+<h2 id="浏览器访问网站的全过程"><a href="#浏览器访问网站的全过程" class="headerlink" title="浏览器访问网站的全过程"></a>浏览器访问网站的全过程</h2><ol>
+<li>浏览器地址栏构建域名地址</li>
+<li>浏览器构建请求报文</li>
+<li>dns解析,把域名转换成ip地址</li>
+<li>浏览器地址栏发出请求报文</li>
+<li>服务器接收request,并解析 </li>
+<li>服务器构建响应报文</li>
+<li>服务器发送响应报文</li>
+<li>浏览器接收响应报文,并解析</li>
+<li>浏览器渲染页面,遇到别的资源继续发送请求</li>
+<li>页面解析完成,展示页面</li>
+</ol>
+<h3 id="建立tcp3次握手-是建立互信机制-为了网络安全"><a href="#建立tcp3次握手-是建立互信机制-为了网络安全" class="headerlink" title="建立tcp3次握手   是建立互信机制,为了网络安全"></a>建立tcp3次握手   是建立互信机制,为了网络安全</h3><h2 id="web开发的本质"><a href="#web开发的本质" class="headerlink" title="web开发的本质"></a>web开发的本质</h2><ol>
+<li>请求 客户端发送请求</li>
+<li>处理 服务端处理请求</li>
+<li>响应 服务端处理结果响应给客户端</li>
+</ol>
+<h2 id="关于C-S-和-B-S的优缺点"><a href="#关于C-S-和-B-S的优缺点" class="headerlink" title="关于C/S 和 B/S的优缺点"></a>关于C/S 和 B/S的优缺点</h2><p>cs是客户端和服务端   优点可以呈现效果比较酷炫的效果,等<br>缺点  更新要同时更新两端,工作量比较大</p>
+<p>bs    服务端更新就可以了,所有效果呈现在网页上<br>        完全依赖网页,酷炫的效果  达不到</p>
+<h2 id="node-js-是开发平台"><a href="#node-js-是开发平台" class="headerlink" title="node.js  是开发平台"></a>node.js  是开发平台</h2><h2 id="node的特点-优势"><a href="#node的特点-优势" class="headerlink" title="node的特点 优势"></a>node的特点 优势</h2><ol>
+<li>事件驱动</li>
+<li>非阻塞I/O (异步的I/O)</li>
+<li>单线程</li>
+<li>非常适合用作依赖其他I/O资源的中间层服务(接收到请求风发给其他服务器处理,充当传送的角色,为分布式做中转)</li>
+<li>有强大的npm支持</li>
+<li>可以编写发送请求的程序和处理请求的程序</li>
+</ol>
+<h2 id="动态网页和静态网页的区别"><a href="#动态网页和静态网页的区别" class="headerlink" title="动态网页和静态网页的区别"></a>动态网页和静态网页的区别</h2><p>静态网页  是直接在浏览器端渲染出来的,没有交互的,不依赖后台数据的<br>动态网页  是在服务器端先运行,之后发送到浏览器端的</p>
+<h2 id="REPL介绍"><a href="#REPL介绍" class="headerlink" title="REPL介绍"></a>REPL介绍</h2><p>  (交互式解析器)</p>
+<h2 id="node端js"><a href="#node端js" class="headerlink" title="node端js"></a>node端js</h2><p>console.log 和process.stdout.write()<br>前者输出后自带换行,后者输出后不带换行   要换行需要用’\n’转义</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//加载模块  </span></div><div class="line">	<span class="keyword">var</span> readline = <span class="built_in">require</span>(<span class="string">'readline'</span>);</div><div class="line"><span class="comment">//写文件</span></div><div class="line">fs.writeFile(file,data[,option],callback);</div><div class="line"><span class="comment">//参数1: 要写入的文件的路径</span></div><div class="line"><span class="comment">//参数2: 要写入的数据</span></div><div class="line"><span class="comment">//参数3: 编码格式(可不写)</span></div><div class="line"><span class="comment">//参数4: 回调函数</span></div><div class="line"></div><div class="line"><span class="comment">//注意:</span></div><div class="line">	* 该操作采用异步执行</div><div class="line">	* 如果文件已经存在,则替换掉</div><div class="line">	* 默认的文件编码格式为utf8</div><div class="line">	* 回调函数有<span class="number">1</span>个参数:err   出错了err!=<span class="literal">null</span></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"><span class="comment">//读文件</span></div><div class="line">	fs.readFile(file[,options],callback)</div><div class="line"><span class="comment">// 参数1: 读取文件的路径</span></div><div class="line"><span class="comment">// 参数2: 编码格式(utf8  目前为止是这样)</span></div><div class="line"><span class="comment">// 参数3: 回调(两个参数 err和data)</span></div><div class="line">	</div><div class="line">如果读取文件的时候没有指定编码,那么返回的将是原生的二进制数据,</div><div class="line">如果指定了编码,那么会根据指定的编码返回对应的字符串数据</div><div class="line"></div><div class="line">文件操作中的<span class="string">'./'</span></div><div class="line">表示当前路径相对的是执行node命令的路径而不是当前被执行的js文件的实际路径</div><div class="line"><span class="string">`__dirname`</span> 才永远表示当前被执行的js文件的实际路径</div><div class="line"><span class="string">`/`</span>表示根目录,读取文件或写入文件的时候写<span class="string">`/`</span></div></pre></td></tr></table></figure>
+<pre><code>1. 异步操作无法通过try-catch来捕获异常,要判断error来判断是否出错
+2. 同步操作是可以通过try-catch 来捕获异常的
+3. 不要使用fs.exists(path,callback)来判断文件是否存在,直接判断error即可
+4. 文件操作时的路径问题
+    - 在读写文件的时候&apos;./&apos;
+    表示当前执行的node命令的那个路径,不是被执行的JS文件的路径
+    - __dirname 表示的永远是&apos;当前被执行的js的目录&apos;
+    - __filename 表示的是&quot;被执行的js的文件名(含路径)&quot;
+
+1. 浏览器显示的可能是乱码,所以可以通过`res.setHeader(&apos;Content-Type&apos;,&apos;text/plain&apos;;charset=utf-8)`设置浏览器显示时所使用的编码
+2. Chrome 浏览器默认无法手动设置编码，需要安装&quot;Set Character Encoding&quot;扩展。
+3. content-type中text/html和text/plain的区别
+    一个是调用html解析器处理文件
+    一个是纯文本形式
+</code></pre><h3 id="通过-node-js-编写-http-服务程序-通过读取静态-HTML-文件来响应用户请求"><a href="#通过-node-js-编写-http-服务程序-通过读取静态-HTML-文件来响应用户请求" class="headerlink" title="通过 node.js 编写 http 服务程序 - 通过读取静态 HTML 文件来响应用户请求"></a>通过 node.js 编写 http 服务程序 - 通过读取静态 HTML 文件来响应用户请求</h3><pre><code>* 在页面中写相对路径&apos;./&apos;很绝对路径&apos;/&apos;的含义
+
+网页中的 这个路径是告诉浏览器向哪个地址发起请求用的
+&apos;./&apos;表示本次请求从相对当前页面的请求路径开始(即服务器返回当前页面时的请求路径)
+&apos;/&apos;表示请求从跟目录开始
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">res.writeHead(<span class="number">200</span>,<span class="string">'OK'</span>,&#123;</div><div class="line">	<span class="string">'Content-Type'</span>: <span class="string">'text/html; charset=utf-8'</span></div><div class="line">	&#125;)</div><div class="line"></div><div class="line"><span class="keyword">var</span> server = http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">req,res</span>)</span>&#123;</div><div class="line">	<span class="comment">//mime.lookup(url), 判断用哪种text/html还是别的</span></div><div class="line"></div><div class="line">	&#125;)</div><div class="line">	readFile读取文件前无需判断文件是否已经存在,而是在读取文件的回调函数中的error错误信息来判断读取的文件是否成功以及发生的错误</div><div class="line"></div><div class="line">	<span class="comment">//err.code === 'ENOENT' 判断是否请求的文件是否不存在</span></div><div class="line">	<span class="comment">//err.code === 'EACCES' eacces判断文件是否有访问权限</span></div></pre></td></tr></table></figure>
+</code></pre><h2 id="同步文件操作-和异步文件操作"><a href="#同步文件操作-和异步文件操作" class="headerlink" title="同步文件操作 和异步文件操作"></a>同步文件操作 和异步文件操作</h2><ul>
+<li><code>fs.readFile(file[,options],callback)</code></li>
+<li><code>fs.readFileSync(file[,option])</code></li>
+</ul>
+<h2 id="通过设置http-响应报文头实现弹框下载功能"><a href="#通过设置http-响应报文头实现弹框下载功能" class="headerlink" title="通过设置http 响应报文头实现弹框下载功能"></a>通过设置http 响应报文头实现弹框下载功能</h2><ol>
+<li><p>设置    <code>Content-Type:application/octet-stream</code>  //流,以流的形式下载</p>
+</li>
+<li><p>设置<code>Content-Disposition: attachment; filename=demo.txt</code></p>
+</li>
+</ol>
+<h2 id="request-对象-对象类型"><a href="#request-对象-对象类型" class="headerlink" title="request 对象    对象类型 "></a>request 对象    对象类型 <http.incomingmessage></http.incomingmessage></h2><pre><code>Request对象常用成员
+
+`request.headers`
+`request.rawheader`
+`request.httpVersion`
+`request.method`
+`req.url`
+
+
+response对象    对象类型 &lt;http.ServerResponse&gt;
+response.writeHead(statusCode[,statusMessage][,headers])
+这个方法在每次请求响应前都必须被调用(只能调用一次),并且必须在end()方法调用前调用
+
+如果在调用writeHead() 方法之前调用了 write() 或者end()方法,系统会自动帮你调用writeHead()方法,并且会生成默认的响应头
+
+如果通过res,setHeader()也设置了响应头,那么系统会将setHeader()设置响应头和writeHeader()设置的响应头合并,并且writeHead()的设置优先
+
+res.write(chunk[,encoding][,callback])
+
+参数1: 要写入的数据,可以是字符串或者二进制数据
+参数2: 编码,默认是utf8,选填
+参数3: 回调函数,选填
+
+
+res.end([data][,encoding][,callback])
+结束响应
+
+res.end()每次响应都要调用这个方法,用来结束响应
+
+参数1: 结束响应前要发送的数据
+参数2: 编码
+参数3: 回调函数
+
+res.setHeader(name,value)
+* 设置响应报文头
+
+res.statusCode
+* 设置或读取http响应码
+
+res.statusMessage
+* 设置读取http响应状态的消息
+
+npm  是包管理工具
+</code></pre><p>在项目的根目录下，执行<code>npm install 包名称</code>安装<br>通过<code>npm install 包名</code>安装的包，会自动下载到当前目录下的<code>node_modules</code>目录下，如果该目录不存在，则创建，如果已存在则直接下载进去。    </p>
+<pre><code>npm的全局安装
+
+npm install 包名 -g   
+npm全局安装指的是把包安装成了一个命令行工具
+
+install 安装包
+uninstall 卸载包  npm uninstall 包名
+version  npm version 或者 npm -v
+</code></pre><p>npm init 创建一个package.json  文件  一般用npm init -y</p>
+<p>Module模块 和package 包的区别</p>
+<p>模块可以是任何一个文件或目录(目录下可以有很多文件),只要能被node.js通过require()即可.</p>
+<p>包是一个文件或者目录(目录下可以有多个文件),必须有一个package.json  文件来描述,就可以是一个包</p>
+<p>package.json</p>
+<p>是一个包说明文件(项目描述文件),用来管理组织一个包(一个项目)<br>是一个json格式的文件<br>位于当前项目的根目录下</p>
+<h2 id="package-json-文件中常见的项有哪些？"><a href="#package-json-文件中常见的项有哪些？" class="headerlink" title="package.json 文件中常见的项有哪些？"></a>package.json 文件中常见的项有哪些？</h2><ul>
+<li>name<ul>
+<li>包的名字</li>
+</ul>
+</li>
+<li>version<ul>
+<li>包的版本</li>
+</ul>
+</li>
+<li>description<ul>
+<li>包描述</li>
+</ul>
+</li>
+<li>author<ul>
+<li>包的作者</li>
+</ul>
+</li>
+<li>main<ul>
+<li>包的入口文件,从main字段这里指定的那个js文件开始执行</li>
+</ul>
+</li>
+<li>dependencies<ul>
+<li>当前包依赖的其他包</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/01/" data-id="cj5qs1mx00000pouxp4yqfryb" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
   
     <article id="post-never-give-up" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
@@ -87,7 +658,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/30/never-give-up/" data-id="cj5qqx3f50000vsuxb7tcmbty" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/07/30/never-give-up/" data-id="cj5qs1mxv0006poux6jw3dn0r" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -132,7 +703,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/30/hello-world/" data-id="cj5qqx3fa0001vsux18vdv7et" class="article-share-link">Поделиться</a>
+      <a data-url="http://yoursite.com/2017/07/30/hello-world/" data-id="cj5qs1mxd0003pouxx2i9em40" class="article-share-link">Delen</a>
       
       
     </footer>
@@ -157,7 +728,7 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Архив</h3>
+    <h3 class="widget-title">Archieven</h3>
     <div class="widget">
       <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
     </div>
@@ -167,16 +738,28 @@
   
     
   <div class="widget-wrap">
-    <h3 class="widget-title">Недавние записи</h3>
+    <h3 class="widget-title">Recente berichten</h3>
     <div class="widget">
       <ul>
         
           <li>
-            <a href="/2017/07/30/never-give-up/">never give up</a>
+            <a href="/2017/07/30/关于JSON对象/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2017/07/30/hello-world/">Hello World</a>
+            <a href="/2017/07/30/05.javascript高级04/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/04.javascript高级03/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/03.javascript高级02/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/02.javascript高级01/">(no title)</a>
           </li>
         
       </ul>
@@ -192,7 +775,7 @@
   <div class="outer">
     <div id="footer-info" class="inner">
       &copy; 2017 John Doe<br>
-      Создано с помощью <a href="http://hexo.io/" target="_blank">Hexo</a>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
     </div>
   </div>
 </footer>

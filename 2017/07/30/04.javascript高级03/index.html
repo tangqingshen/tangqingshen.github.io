@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>never give up  gogogo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原型链每个对象都有原型,原型也是一个对象,所以原型也有自己的原型,这样就形成了一个以圆形组成的链条,称为原型链12345678910111213var obj =&amp;#123;&amp;#125;//obj对象的原型就是obj.__proto__//obj对象的原型的原型是	obj.__proto__.__proto__function Person()&amp;#123;&amp;#125;var p = new Per">
+<meta property="og:type" content="article">
+<meta property="og:title" content="never give up  gogogo">
+<meta property="og:url" content="http://yoursite.com/2017/07/30/04.javascript高级03/index.html">
+<meta property="og:site_name" content="never give up  gogogo">
+<meta property="og:description" content="原型链每个对象都有原型,原型也是一个对象,所以原型也有自己的原型,这样就形成了一个以圆形组成的链条,称为原型链12345678910111213var obj =&amp;#123;&amp;#125;//obj对象的原型就是obj.__proto__//obj对象的原型的原型是	obj.__proto__.__proto__function Person()&amp;#123;&amp;#125;var p = new Per">
+<meta property="og:updated_time" content="2017-07-19T13:09:54.407Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="never give up  gogogo">
+<meta name="twitter:description" content="原型链每个对象都有原型,原型也是一个对象,所以原型也有自己的原型,这样就形成了一个以圆形组成的链条,称为原型链12345678910111213var obj =&amp;#123;&amp;#125;//obj对象的原型就是obj.__proto__//obj对象的原型的原型是	obj.__proto__.__proto__function Person()&amp;#123;&amp;#125;var p = new Per">
+  
+    <link rel="alternate" href="/atom.xml" title="never give up  gogogo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">never give up  gogogo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Zoeken"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-04.javascript高级03" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/07/30/04.javascript高级03/" class="article-date">
+  <time datetime="2017-07-30T13:43:58.873Z" itemprop="datePublished">2017-07-30</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h2><p>每个对象都有原型,原型也是一个对象,所以原型也有自己的原型,这样就形成了一个以圆形组成的链条,称为原型链<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj =&#123;&#125;</div><div class="line"><span class="comment">//obj对象的原型就是obj.__proto__</span></div><div class="line"><span class="comment">//obj对象的原型的原型是	obj.__proto__.__proto__</span></div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> p = <span class="keyword">new</span> Person();</div><div class="line"></div><div class="line"><span class="comment">//p的原型就是 Person.prototype  也就是 p.__proto__</span></div><div class="line"><span class="comment">//p的原型的原型就是Person.prototype.__proto__</span></div><div class="line">或者是p.__proto__.__proto__</div></pre></td></tr></table></figure></p>
+<ul>
+<li>属性搜索原则<br>当一个对象去访问对象的属性的时候,遵守如下原则:</li>
+</ul>
+<ol>
+<li>先在对象本身中去访问对象的属性,找到就直接使用</li>
+<li>如果没有找到,就去原型中找,找到直接使用</li>
+<li>如果没有找到,就继续沿着原型链向上查找,直到null为止</li>
+</ol>
+<h2 id="object-prototype成员介绍"><a href="#object-prototype成员介绍" class="headerlink" title="object.prototype成员介绍"></a>object.prototype成员介绍</h2><h3 id="hasOwnProperty-NaN"><a href="#hasOwnProperty-NaN" class="headerlink" title="hasOwnProperty"></a>hasOwnProperty</h3><p>判断对象本身是否拥有指定的属性<br>对象.hasOwnProperty(‘属性名’)<br>//判断对象能否访问某个属性</p>
+<h3 id="isPrototypeOf-NaN"><a href="#isPrototypeOf-NaN" class="headerlink" title="isPrototypeOf"></a>isPrototypeOf</h3><p>判断当前对象是否是另一个对象的原型<br><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;&#125;;</div><div class="line">obj1.__proto__ = obj;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(obj.isPrototypeOf(obj1));</div></pre></td></tr></table></figure></p>
+<h3 id="propertyIsEnumarable"><a href="#propertyIsEnumarable" class="headerlink" title="propertyIsEnumarable"></a>propertyIsEnumarable</h3><p>判断属性是否属于对象本身,再判断属性能否被(for-in)遍历</p>
+<h3 id="toLocalString-toString"><a href="#toLocalString-toString" class="headerlink" title="toLocalString toString"></a>toLocalString toString</h3><p>都是将对象转换成字符串<br>toLocalString 是将对象转换成本地格式的字符串<br>toString 是转成通用格式的字符串</p>
+<h3 id="valueOf-NaN"><a href="#valueOf-NaN" class="headerlink" title="valueOf"></a>valueOf</h3><p>获取对象的值</p>
+<h2 id="函数的创建方式"><a href="#函数的创建方式" class="headerlink" title="函数的创建方式"></a>函数的创建方式</h2><ol>
+<li><p>函数声明<br>function() 函数名(){};</p>
+</li>
+<li><p>函数表达式<br>var 函数名 = function(){};</p>
+</li>
+<li><p>使用Function</p>
+</li>
+</ol>
+<p>var 函数名 = new Function();</p>
+<h2 id="Function的解释"><a href="#Function的解释" class="headerlink" title="Function的解释"></a>Function的解释</h2><p>Function是一个构造函数,可以用来创建函数对象<br>js中所有的函数(包括Function本身),都可以看做是使用Function构造函数创建出来的</p>
+<h3 id="Function可以用来创建函数"><a href="#Function可以用来创建函数" class="headerlink" title="Function可以用来创建函数"></a>Function可以用来创建函数</h3><ol>
+<li>如果不给Function传递参数,那么创建出来的就是一个空函数</li>
+<li><p>传递一个参数,这个参数就是函数的函数体,这个参数是字符串类型的</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> func1 = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"console.log(123);console.log(456);"</span>);</div><div class="line">func1();</div><div class="line"><span class="built_in">console</span>.log(func1);</div></pre></td></tr></table></figure>
+</li>
+<li><p>传递多个参数的时候,最后一个参数为函数体,之前的所有参数都是形参名</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> sum = <span class="keyword">new</span> <span class="built_in">Function</span>(<span class="string">"a"</span>, <span class="string">"b"</span>, <span class="string">"return a + b;"</span>);</div><div class="line"><span class="built_in">console</span>.log(sum(<span class="number">1</span>, <span class="number">2</span>));</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="eval函数"><a href="#eval函数" class="headerlink" title="eval函数"></a>eval函数</h2><p>eval是一个函数,可以把字符串当做代码来执行<br>和Function的区别在于<br>eval会将字符串转换成代码,并且直接执行<br>而Function创建出来的是函数,必须要手动调用,里面的代码才会执行</p>
+<p>JSON格式字符串转换成JS对象<br>JSON.parse</p>
+<p>使用eval来解析JSON格式的字符串<br>当使用eval直接解析json格式的字符串的时候，系统会将{}当做代码块来处理，而不是对象字面量，所以会报错！</p>
+<p>代码块?<br>代码块只能单独存在,但是对象字面量可以作为橘子的一部分存在,给变量赋值或者传参</p>
+<p>Function和eval  都存在安全性问题</p>
+<h3 id="函数的原型链"><a href="#函数的原型链" class="headerlink" title="函数的原型链"></a>函数的原型链</h3><ol>
+<li>函数也是一个对象<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(Person.__proto__ === <span class="built_in">Function</span>.prototype);</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="instanceof-关键字"><a href="#instanceof-关键字" class="headerlink" title="instanceof 关键字"></a>instanceof 关键字</h2><p>判断对象的原型链上是否存在构造函数.prototype</p>
+<p>格式:<br>对象  instanceof 构造函数</p>
+<h2 id="函数的成员"><a href="#函数的成员" class="headerlink" title="函数的成员"></a>函数的成员</h2><ol>
+<li>name : 函数的名称</li>
+<li>length: 函数的形参的个数</li>
+<li>caller： 函数是在哪个函数中被调用的，caller就指向那个外部函数（这个caller必须要在函数中去使用，才能访问到值！）</li>
+<li>arguments： 函数在被调用的时候，会把所有的实参存到这个对象里面（这个对象必须要在函数中去使用，才能访问到值！ 这个arguments是函数的属性，和之前学过的arguments不一样！）</li>
+</ol>
+<h2 id="静态成员和实例成员"><a href="#静态成员和实例成员" class="headerlink" title="静态成员和实例成员"></a>静态成员和实例成员</h2><ul>
+<li>静态成员： 通过构造函数访问的成员就是静态成员</li>
+<li>实例成员： 通过实例对象访问的成员就是实例成员</li>
+</ul>
+<p>如何设置对象的属性不能被赋值?<br>Object.defineProperty设置</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/07/30/04.javascript高级03/" data-id="cj5qs1mx90001pouxpdrqa9s8" class="article-share-link">Delen</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/30/05.javascript高级04/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Nieuwer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/07/30/03.javascript高级02/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Ouder</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archieven</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recente berichten</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/07/30/关于JSON对象/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/05.javascript高级04/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/04.javascript高级03/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/03.javascript高级02/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/02.javascript高级01/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
